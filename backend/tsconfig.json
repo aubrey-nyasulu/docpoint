@@ -3,8 +3,11 @@
     "module": "CommonJS", // Use the latest module system (import/export syntax).
     "target": "ES2021", // Compile to ES6, suitable for modern Node.js (14+).
     "lib": [
-      "ESNext",
-    ], // Include ES6 standard libraries.
+      "ES2022"
+    ],
+    "types": [
+      "node"
+    ],
     "strict": true, // Enable all strict type-checking options for safer code.
     "noEmitOnError": true, // Prevents emitting files if there are any TypeScript errors.
     "esModuleInterop": true, // Allow default imports from CommonJS modules (e.g., 'import express from "express"').
