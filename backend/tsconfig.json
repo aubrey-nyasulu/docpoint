@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS", // Use the latest module system (import/export syntax).
+    "target": "ES2021", // Compile to ES6, suitable for modern Node.js (14+).
+    "lib": [
+      "ESNext",
+    ], // Include ES6 standard libraries.
+    "strict": true, // Enable all strict type-checking options for safer code.
+    "noEmitOnError": true, // Prevents emitting files if there are any TypeScript errors.
+    "esModuleInterop": true, // Allow default imports from CommonJS modules (e.g., 'import express from "express"').
+    "skipLibCheck": true, // Skip type checking for declaration files in node_modules for performance.
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names.
+    "outDir": "./dist", // Place compiled JavaScript files in the `dist` folder.
+    "rootDir": "./src", // Specify the root folder for your TypeScript files.
+    "resolveJsonModule": true, // Allow importing JSON files as modules.
+    "sourceMap": false, // Generate source maps for debugging.
+    "noImplicitAny": false, // Prevent variables from having an implicit "any" type.
+    "noUnusedLocals": true, // Error on unused local variables to keep code clean.
+    "noUnusedParameters": false, // Error on unused function parameters for clarity.
+    "noImplicitReturns": false, // Ensure all code paths in a function return a value.
+    "moduleResolution": "node10", // Use Node.js module resolution.
+    "declaration": false, // Generate .d.ts files for type declarations.
+    "declarationMap": false, // Generate source maps for .d.ts files.
+    "removeComments": true,
+  },
+  "exclude": [
+    "node_modules", // Exclude dependencies from compilation.
+    "dist", // Exclude the output folder to avoid double compilation.
+  ],
+  "include": [
+    "src/**/*", // Include all TypeScript files in the `src` folder.
+    "types.d.ts"
+  ]
+}
