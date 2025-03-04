@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+import { baseURL } from './lib/utils'
 
 function App() {
-  const [message, setMessage] = useState('temp')
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     (
       async () => {
         try {
-          const res = await fetch('http://localhost:5000/hello')
+          const res = await fetch(`${baseURL}/hello`)
 
           const data = await res.json()
 
