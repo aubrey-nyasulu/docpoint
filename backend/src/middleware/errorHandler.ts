@@ -1,4 +1,4 @@
-import errorResponse from '../lib/errorResponse'
+import errorResponse from '../lib/errorResponse.js'
 
 type ExpressError = Error & {
     code?: number

@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 
-import errorHandler from "./middleware/errorHandler"
+import errorHandler from "./middleware/errorHandler.js"
 
 const createServer = () => {
     const app = express()
@@ -10,7 +10,7 @@ const createServer = () => {
     app.use(express.json())
     app.use(express.urlencoded())
 
-    app.get('/hello', (_req, res) => {
+    app.get('/api/v1/hello', (_req, res) => {
         res.json({ message: 'hello world!' })
     })
 

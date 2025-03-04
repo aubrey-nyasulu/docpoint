@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "CommonJS", // Use the latest module system (import/export syntax).
+    "module": "ESNext", // Use the latest module system (import/export syntax).
     "target": "ES2021", // Compile to ES6, suitable for modern Node.js (14+).
     "lib": [
       "ES2022"
