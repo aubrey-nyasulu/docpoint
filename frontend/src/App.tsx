@@ -8,7 +8,7 @@ function App() {
     (
       async () => {
         try {
-          const res = await fetch(`${baseURL}/hello`)
+          const res = await fetch(`${baseURL}/test`)
 
           const data = await res.json()
 
