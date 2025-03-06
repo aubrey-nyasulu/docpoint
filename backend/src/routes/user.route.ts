@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/profile/doctor/:id', getDoctorProfile)
 
-router.get('/availability', getAvailability)
-router.put('/availability', updateAvailability)
+router.get('/availability/:doctorId', getAvailability)
+router.put('/availability/:doctorId', updateAvailability)
 
 export default router

@@ -7,7 +7,7 @@ export interface IUser extends Document {
     role: "doctor" | "patient";
     specialty?: string;
     location?: string;
-    availability?: { day: string; time: string }[];
+    availability?: { day: Date; time: string }[];
 }
 
 const UserSchema = new Schema<IUser>(
@@ -20,7 +20,7 @@ const UserSchema = new Schema<IUser>(
         location: { type: String },
         availability: [
             {
-                day: { type: String },
+                day: { type: Date },
                 time: { type: String },
             },
         ],

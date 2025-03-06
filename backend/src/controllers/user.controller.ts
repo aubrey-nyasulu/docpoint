@@ -1,12 +1,19 @@
 import { Request, Response } from "express"
+import mongoose from "mongoose"
 
 import asyncHandler from "../middleware/asyncHandler.js"
-import { doctors } from "./search.controller.js"
+import User from "../models/UserModel.js"
 
+// Get Doctor Profile by ID
 export const getDoctorProfile = asyncHandler(async (req: Request, res: Response) => {
     try {
         const { id } = req.params
-        const doctor = doctors.find(doc => doc.id === id)
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid doctor ID" })
+        }
+
+        const doctor = await User.find({ _id: id, role: 'doctor' }).select("-password") // Exclude sensitive data like password
 
         if (!doctor) {
             return res.status(404).json({ error: "Doctor not found" })
@@ -18,20 +25,64 @@ export const getDoctorProfile = asyncHandler(async (req: Request, res: Response)
     }
 })
 
+// Get Doctor's Availability
 export const getAvailability = asyncHandler(async (req: Request, res: Response) => {
     try {
-        // Fetch availability from the database
-        res.json({ availableHours: ["09:00-12:00", "14:00-17:00"] })
+        const { doctorId } = req.params
+        console.log({ doctorId })
+
+        if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+            return res.status(400).json({ error: "Invalid doctor ID" })
+        }
+
+        const doctor = await User.findById(doctorId).select("availability")
+
+        if (!doctor) {
+            return res.status(404).json({ error: "Doctor not found" })
+        }
+
+        res.json({ availableHours: doctor.availability }) // Assuming availability is stored in DoctorModel
     } catch (error) {
         res.status(500).json({ error: "Failed to get availability" })
     }
 })
 
+// Update Doctor's Availability
 export const updateAvailability = asyncHandler(async (req: Request, res: Response) => {
     try {
+        const { doctorId } = req.params
         const { availableHours } = req.body
-        // Update availability in the database
-        res.json({ message: "Availability updated", availableHours })
+        console.log({ availableHours })
+
+        if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+            return res.status(400).json({ error: "Invalid doctor ID" })
+        }
+
+        const doctor = await User.findById(doctorId)
+
+        if (!doctor) {
+            return res.status(404).json({ error: "Doctor not found" })
+        }
+
+        console.log('doc av', doctor.availability)
+        const slotIsFilled = doctor.availability?.find(slot => {
+            const date1 = new Date(slot.day).toLocaleString()
+            const date2 = new Date(availableHours.day).toLocaleString()
+
+            console.log({ date1, date2 })
+
+            return (
+                slot.time === availableHours.time &&
+                date1 === date2
+            )
+        })
+
+        if (slotIsFilled) return res.status(400).json({ error: "Slot not available" })
+
+        doctor.availability = [...doctor.availability || [], availableHours]
+        await doctor.save()
+
+        res.json({ message: "Availability updated successfully", availableHours })
     } catch (error) {
         res.status(500).json({ error: "Failed to update availability" })
     }
